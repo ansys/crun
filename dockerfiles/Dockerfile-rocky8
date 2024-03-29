@@ -1,0 +1,25 @@
+FROM rockylinux:8
+
+ARG DNF="yum"
+
+RUN $DNF --enablerepo='*' --disablerepo='media-*' install -y \
+    sudo \
+    make \
+    automake \
+    autoconf \
+    gettext \
+    libtool \
+    gcc \
+    libcap-devel \
+    systemd-devel \
+    yajl-devel \
+    glibc-static \
+    libseccomp-devel \
+    python36 \
+    git \
+    && \
+    sudo $DNF clean all
+
+COPY ./entrypoint.sh ./build.sh /
+ENTRYPOINT ["/entrypoint.sh"]
+CMD "/build.sh"
